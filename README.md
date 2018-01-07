@@ -4,7 +4,7 @@
 [![Release](https://img.shields.io/github/release/sheerun/queue.svg)](https://github.com/sheerun/queue/releases/latest)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.txt)
 
-An blocking FIFO queue based on auto-growing circular buffer, without goroutines.
+Lightweight, performant, thread-safe blocking FIFO queue based on auto-growing circular buffer.
 
 ## Usage
 
