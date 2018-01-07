@@ -9,39 +9,46 @@ Lightweight, performant, thread-safe blocking FIFO queue based on auto-resizing 
 ## Usage
 
 ```go
+package main
+
 import (
-  queue "github.com/sheerun/queue"
-  "sync"
+	"fmt"
+	"sync"
+	"time"
+
+	"github.com/sheerun/queue"
 )
 
 func main() {
-  q := queue.New()
-  var wg sync.WaitGroup
-  wg.Add(2)
-  
-  // Worker 1
-  go func() {
-    for i := 0; i < 5000; i++ {
-      item = q.Pop()
-      fmt.Printf("%v\n", item)
-    }
-    wg.Done()
-  }()
+	q := queue.New()
+	var wg sync.WaitGroup
+	wg.Add(2)
 
-  // Worker 2
-  go func() {
-    for i := 0; i < 5000; i++ {
-      item = q.Pop()
-      fmt.Printf("%v\n", item)
-    }
-    wg.Done()
-  }()
+	// Worker 1
+	go func() {
+		for i := 0; i < 500; i++ {
+			item := q.Pop()
+			fmt.Printf("%v\n", item)
+			time.Sleep(10 * time.Millisecond)
+		}
+		wg.Done()
+	}()
 
-  for i := 0; i < 10000; i++ {
-    q.Append(i)
-  }
-  
-  wg.Wait()
+	// Worker 2
+	go func() {
+		for i := 0; i < 500; i++ {
+			item := q.Pop()
+			fmt.Printf("%v\n", item)
+			time.Sleep(10 * time.Millisecond)
+		}
+		wg.Done()
+	}()
+
+	for i := 0; i < 1000; i++ {
+		q.Append(i)
+	}
+
+	wg.Wait()
 }
 ```
 
