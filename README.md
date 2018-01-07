@@ -18,25 +18,29 @@ func main() {
   q := queue.New()
   var wg sync.WaitGroup
   wg.Add(2)
-
+  
+  // Worker 1
   go func() {
-    for i := 0; i < 10000; i++ {
-      q.Append(i)
+    for i := 0; i < 5000; i++ {
+      item = q.Pop()
+      fmt.Printf("%v\n", item)
     }
     wg.Done()
   }()
 
+  // Worker 2
   go func() {
-    for i := 0; i < 10000; i++ {
-      if q.Pop() != i {
-        t.Errorf("Invalid returned index: %d", i)
-        wg.Done()
-        return
-      }
+    for i := 0; i < 5000; i++ {
+      item = q.Pop()
+      fmt.Printf("%v\n", item)
     }
     wg.Done()
   }()
 
+  for i := 0; i < 10000; i++ {
+    q.Append(i)
+  }
+  
   wg.Wait()
 }
 ```
