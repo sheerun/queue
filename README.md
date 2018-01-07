@@ -9,7 +9,12 @@ Lightweight, performant, thread-safe blocking FIFO queue based on auto-growing c
 ## Usage
 
 ```go
-q := New()
+import (
+  queue "github.com/sheerun/queue"
+  "sync"
+)
+
+q := queue.New()
 
 var wg sync.WaitGroup
 
