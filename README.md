@@ -14,31 +14,31 @@ import (
   "sync"
 )
 
-q := queue.New()
+func main() {
+  q := queue.New()
+  var wg sync.WaitGroup
+  wg.Add(2)
 
-var wg sync.WaitGroup
-
-wg.Add(2)
-
-go func() {
-  for i := 0; i < 10000; i++ {
-    q.Append(i)
-  }
-  wg.Done()
-}()
-
-go func() {
-  for i := 0; i < 10000; i++ {
-    if q.Pop() != i {
-      t.Errorf("Invalid returned index: %d", i)
-      wg.Done()
-      return
+  go func() {
+    for i := 0; i < 10000; i++ {
+      q.Append(i)
     }
-  }
-  wg.Done()
-}()
+    wg.Done()
+  }()
 
-wg.Wait()
+  go func() {
+    for i := 0; i < 10000; i++ {
+      if q.Pop() != i {
+        t.Errorf("Invalid returned index: %d", i)
+        wg.Done()
+        return
+      }
+    }
+    wg.Done()
+  }()
+
+  wg.Wait()
+}
 ```
 
 ## License
