@@ -7,7 +7,6 @@ import (
 
 const minQueueLen = 32
 
-// Queue represents a single instance of the queue data structure.
 type Queue struct {
 	items             map[int64]interface{}
 	ids               map[interface{}]int64
@@ -15,7 +14,8 @@ type Queue struct {
 	head, tail, count int
 	mutex             *sync.Mutex
 	notEmpty          *sync.Cond
-	NotEmpty          chan struct{}
+	// You can subscribe to this channel to know whether queue is not empty
+	NotEmpty chan struct{}
 }
 
 func New() *Queue {
@@ -32,6 +32,7 @@ func New() *Queue {
 	return q
 }
 
+// Removes all elements from queue
 func (q *Queue) Clean() {
 	q.mutex.Lock()
 	defer q.mutex.Unlock()
@@ -41,7 +42,7 @@ func (q *Queue) Clean() {
 	q.buf = make([]int64, minQueueLen)
 }
 
-// Length returns the number of elements currently stored in the queue.
+// Returns the number of elements in queue
 func (q *Queue) Length() int {
 	q.mutex.Lock()
 	defer q.mutex.Unlock()
@@ -81,7 +82,7 @@ func (q *Queue) notify() {
 	}
 }
 
-// Add puts an element on the end of the queue.
+// Adds one element at the back of the queue
 func (q *Queue) Append(elem interface{}) {
 	q.mutex.Lock()
 	defer q.mutex.Unlock()
@@ -115,6 +116,7 @@ func (q *Queue) newId() int64 {
 	}
 }
 
+// Adds one element at the front of queue
 func (q *Queue) Prepend(elem interface{}) {
 	q.mutex.Lock()
 	defer q.mutex.Unlock()
@@ -138,6 +140,7 @@ func (q *Queue) Prepend(elem interface{}) {
 	}
 }
 
+// Previews element at the front of queue
 func (q *Queue) Front() interface{} {
 	q.mutex.Lock()
 	defer q.mutex.Unlock()
@@ -149,6 +152,7 @@ func (q *Queue) Front() interface{} {
 	return nil
 }
 
+// Previews element at the back of queue
 func (q *Queue) Back() interface{} {
 	q.mutex.Lock()
 	defer q.mutex.Unlock()
@@ -184,8 +188,8 @@ func (q *Queue) pop() int64 {
 	return id
 }
 
-// Pop removes and returns the element from the front of the queue. If the
-// queue is empty, it will block
+// Pop removes and returns the element from the front of the queue.
+// If the queue is empty, it will block
 func (q *Queue) Pop() interface{} {
 	q.mutex.Lock()
 	defer q.mutex.Unlock()
@@ -204,6 +208,7 @@ func (q *Queue) Pop() interface{} {
 	}
 }
 
+// Removes one element from the queue
 func (q *Queue) Remove(elem interface{}) bool {
 	q.mutex.Lock()
 	defer q.mutex.Unlock()
