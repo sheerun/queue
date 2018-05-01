@@ -293,7 +293,7 @@ func TestBack(t *testing.T) {
 	q.Pop()
 
 	if q.Back() != 2 {
-		t.Error("There should be 2 on back, there is %v", q.Back())
+		t.Errorf("There should be 2 on back, there is %v", q.Back())
 	}
 }
 
@@ -306,17 +306,17 @@ func TestRemove(t *testing.T) {
 	q.Remove(2)
 
 	if q.Length() != 2 {
-		t.Error("Queue length should be 2, it is %d", q.Length())
+		t.Errorf("Queue length should be 2, it is %d", q.Length())
 	}
 
 	p := q.Pop()
 	if p != 1 {
-		t.Error("There should be 1 on pop, there is %v", p)
+		t.Errorf("There should be 1 on pop, there is %v", p)
 	}
 
 	p = q.Pop()
 	if p != 3 {
-		t.Error("There should be 3 on pop, there is %v", p)
+		t.Errorf("There should be 3 on pop, there is %v", p)
 	}
 }
 
@@ -333,17 +333,17 @@ func TestTestQueueClean(t *testing.T) {
 	q.Remove(2)
 
 	if q.Length() != 2 {
-		t.Error("Queue length should be 2, it is %d", q.Length())
+		t.Errorf("Queue length should be 2, it is %d", q.Length())
 	}
 
 	p := q.Pop()
 	if p != 1 {
-		t.Error("There should be 1 on pop, there is %v", p)
+		t.Errorf("There should be 1 on pop, there is %v", p)
 	}
 
 	p = q.Pop()
 	if p != 3 {
-		t.Error("There should be 3 on pop, there is %v", p)
+		t.Errorf("There should be 3 on pop, there is %v", p)
 	}
 }
 
