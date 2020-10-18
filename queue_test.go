@@ -347,6 +347,20 @@ func TestTestQueueClean(t *testing.T) {
 	}
 }
 
+func TestTestQueueClean2(t *testing.T) {
+	q := New()
+
+	for i := 0; i < 50; i++ {
+		q.Append(i)
+	}
+
+	q.Clean()
+
+	for i := 0; i < 50; i++ {
+		q.Append(i)
+	}
+}
+
 // General warning: Go's benchmark utility (go test -bench .) increases the number of
 // iterations until the benchmarks take a reasonable amount of time to run; memory usage
 // is *NOT* considered. On my machine, these benchmarks hit around ~1GB before they've had

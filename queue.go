@@ -40,6 +40,9 @@ func (q *Queue) Clean() {
 	q.items = make(map[int64]interface{})
 	q.ids = make(map[interface{}]int64)
 	q.buf = make([]int64, minQueueLen)
+	q.tail = 0
+	q.head = 0
+	q.count = 0
 }
 
 // Returns the number of elements in queue
